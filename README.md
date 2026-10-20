@@ -42,26 +42,16 @@ Les adresses relayées sont signées par le serveur : le relais ne sert que les 
    https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/manifest.json
    ```
 2. *Catalogue* → **PandaTuner** → *Installer*, puis redémarrer Jellyfin.
-3. *Tableau de bord → Extensions → PandaTuner* : saisir l'**adresse de la liste M3U**, puis *Enregistrer le syntoniseur*.
-   Rafraîchir ensuite les données du guide (*Télé en direct*). Les fournisseurs de guide (XMLTV) ne changent pas.
+3. Configurer la liste de chaînes : voir [Configuration](#configuration).
 
-   L'écran *Télé en direct → Ajouter un syntoniseur* de Jellyfin ne convient pas : il n'affiche pas le champ d'adresse
-   pour ce type de syntoniseur.
-
-Les nouvelles versions apparaissent ensuite dans le tableau de bord, comme pour les plugins officiels.
+Les nouvelles versions apparaissent ensuite dans le catalogue. Pour mettre à jour : *Catalogue → PandaTuner*, choisir
+la version, *Installer*, puis redémarrer (ou lancer la tâche planifiée *Mettre à jour les extensions*).
 
 ### À la main
 
 Copier `Jellyfin.Plugin.PandaTuner.dll` (dans le `.zip` des [releases](https://github.com/PandaLajoie/PandaTuner/releases))
-dans un sous-dossier des plugins du serveur, par exemple `plugins/PandaTuner_0.1.0.0/`, puis redémarrer Jellyfin.
-
-L'interface d'ajout de syntoniseur de Jellyfin est prévue pour M3U et HDHomeRun ; en cas de souci, le syntoniseur
-peut être ajouté par l'API :
-
-```http
-POST /LiveTv/TunerHosts
-{ "Type": "pandatuner", "Url": "https://…/liste.m3u", "FriendlyName": "Panda", "IgnoreDts": false }
-```
+dans un sous-dossier des plugins du serveur, par exemple `plugins/PandaTuner_0.1.1.0/`, puis redémarrer Jellyfin
+et passer à la [Configuration](#configuration).
 
 ## Liste M3U
 
@@ -82,11 +72,36 @@ Le syntoniseur intégré ignore cet attribut : la même liste reste utilisable s
 
 ## Configuration
 
-*Tableau de bord → Extensions → PandaTuner* :
+Tout se règle dans **Tableau de bord → Extensions → PandaTuner**.
 
-- mode des chaînes sans attribut ;
-- noms des applications « navigateur » et « lecteur natif » ;
-- morceaux d'User-Agent qui désignent un navigateur de téléviseur.
+> L'écran *Télé en direct → Ajouter un syntoniseur* de Jellyfin ne convient pas : avec le type « PandaTuner », il
+> n'affiche pas le champ d'adresse de la liste, et l'enregistrement échoue.
+
+### 1. Liste de chaînes
+
+1. **Adresse de la liste M3U** : l'adresse `http(s)://…` de la liste (ou un chemin de fichier sur le serveur).
+2. **Nom du syntoniseur** : libre (par défaut « PandaTuner »).
+3. **Enregistrer le syntoniseur** : crée le syntoniseur PandaTuner, ou le met à jour s'il existe déjà.
+   Le serveur télécharge la liste pour la vérifier : une adresse inaccessible ou sans chaîne est refusée.
+4. *Tableau de bord → Télé en direct* → **Rafraîchir les données de guide** pour afficher les chaînes.
+
+### 2. Guide des programmes
+
+Rien de spécial : les fournisseurs XMLTV de *Télé en direct* s'appliquent comme avec le M3U intégré
+(correspondance par `tvg-id`).
+
+### 3. Remplacer le syntoniseur M3U intégré
+
+Si la même liste était déjà chargée par le syntoniseur « M3U » de Jellyfin, chaque chaîne apparaît **deux fois**.
+Une fois PandaTuner vérifié, supprimer l'ancien syntoniseur dans *Télé en direct*.
+
+### 4. Lecture (facultatif)
+
+- **Mode des chaînes sans attribut** `panda-mode` : `direct` par défaut.
+- **Applications « navigateur »** et **à lecteur natif** : noms d'applications (tels qu'envoyés par le client)
+  qui ont droit au direct. Les autres passent par le serveur.
+- **User-Agent de navigateurs de téléviseur** : morceaux d'User-Agent (Tizen, webOS…) qui désignent un navigateur
+  de téléviseur ; il est servi en direct par le relais, mais présenté comme une source locale.
 
 ## Compilation
 
