@@ -9,6 +9,14 @@
         "imageUrl":  "https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/images/logo.png",
         "versions":  [
                          {
+                             "version":  "0.1.1.0",
+                             "changelog":  "L\u0027adresse de la liste M3U se règle dans la page du plugin (Extensions → PandaTuner) : l\u0027écran « Ajouter un syntoniseur » de Jellyfin n\u0027affiche pas ce champ.",
+                             "targetAbi":  "12.0.0.0",
+                             "sourceUrl":  "https://github.com/PandaLajoie/PandaTuner/releases/download/v0.1.1/pandatuner_0.1.1.0.zip",
+                             "checksum":  "606ee54693cc53ce35551599c404c54d",
+                             "timestamp":  "2026-10-20T03:33:53Z"
+                         },
+                         {
                              "version":  "0.1.0.0",
                              "changelog":  "Première version : lecture directe selon l\u0027application, relais de playlists (Pluto dans le navigateur), repli par le serveur.",
                              "targetAbi":  "12.0.0.0",
