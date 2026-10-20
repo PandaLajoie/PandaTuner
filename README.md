@@ -23,7 +23,7 @@ For each playback request, the plugin looks at **which app** is asking and choos
 | App | Delivery |
 |---|---|
 | Desktop browser (Jellyfin Web) | **Direct**: playlists relayed by the server, video segments from the source |
-| TV browser (Tizen, webOS…) | **Direct** through the same relay |
+| TV browser (Tizen, webOS…) and the Samsung TV app (Jellyfin for Tizen) | **Direct** through the same relay |
 | Native player (Jellyfin for Android TV, Jellyfin Media Player) | **Direct** to the original address |
 | Others (Swiftfin, unknown apps) | **Proxy**: through the server, like the built-in M3U tuner |
 
@@ -99,7 +99,8 @@ Once PandaTuner is working, delete the old tuner in *Live TV*.
 
 - **Mode for channels without** a `panda-mode` attribute: `direct` by default.
 - **"Browser" apps** and **native player apps**: app names (as sent by the client) allowed to play directly.
-  Other apps go through the server.
+  Other apps go through the server. Default "browser" apps: `Jellyfin Web,Jellyfin for Tizen` (the Samsung TV app
+  runs the same web player; added automatically to existing settings by version 0.1.3).
 - **TV browser User-Agents**: User-Agent fragments (Tizen, webOS…) that identify a TV browser; it is served directly
   through the relay, but presented as a local source.
 
@@ -129,8 +130,12 @@ Builds, creates the `.zip`, updates `manifest.json`, creates the GitHub release 
 - **Geo-blocking.** With direct play, the device's IP address is what counts, no longer the server's. To force proxy
   for someone (e.g. abroad), enable *"Force transcoding of remote media sources"* in their user settings.
 - **Apps.** Validated in Chrome. Android TV and Android: based on their source code, not yet tested for real.
-  Swiftfin uses proxy (it doesn't read the original address). Samsung TV browser: to be tested; probably limited to
-  the local network.
+  Swiftfin uses proxy (it doesn't read the original address). Samsung TV (browser and Jellyfin for Tizen app):
+  tested for real.
+- **TVs: local network only.** On a TV, the web player only accepts the relay if Jellyfin considers the TV to be on
+  its local network. Open Jellyfin on the TV through a local address (e.g. `http://192.168.1.10:8096`), not through
+  its public domain; otherwise only the channel image shows. If the TV must use the public address, add your home
+  public IP to Jellyfin's *LAN networks* (*Dashboard → Networking*).
 - **Proxy mode and some Pluto channels.** Jellyfin enforces 3 s of analysis for all live TV; for a few Pluto
   channels, ffmpeg doesn't detect the video in that time → audio without picture in proxy (same limitation as the
   built-in M3U tuner). With direct play, these channels work.

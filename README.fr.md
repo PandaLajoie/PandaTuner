@@ -24,7 +24,7 @@ de changer ça : Jellyfin refuse volontairement la lecture directe des playlists
 | Application | Diffusion |
 |---|---|
 | Navigateur d'ordinateur (Jellyfin Web) | **Direct** : playlists relayées par le serveur, segments vidéo depuis la source |
-| Navigateur de téléviseur (Tizen, webOS…) | **Direct** par le même relais |
+| Navigateur de téléviseur (Tizen, webOS…) et application TV Samsung (Jellyfin for Tizen) | **Direct** par le même relais |
 | Lecteur natif (Jellyfin for Android TV, Jellyfin Media Player) | **Direct** à l'adresse d'origine |
 | Autres (Swiftfin, applications inconnues) | **Proxy** : par le serveur, comme le M3U intégré |
 
@@ -101,7 +101,9 @@ Une fois PandaTuner vérifié, supprimer l'ancien syntoniseur dans *Télé en di
 
 - **Mode des chaînes sans attribut** `panda-mode` : `direct` par défaut.
 - **Applications « navigateur »** et **à lecteur natif** : noms d'applications (tels qu'envoyés par le client)
-  qui ont droit au direct. Les autres passent par le serveur.
+  qui ont droit au direct. Les autres passent par le serveur. Applications « navigateur » par défaut :
+  `Jellyfin Web,Jellyfin for Tizen` (l'application TV Samsung utilise le même lecteur web ; ajoutée automatiquement
+  aux réglages existants par la version 0.1.3).
 - **User-Agent de navigateurs de téléviseur** : morceaux d'User-Agent (Tizen, webOS…) qui désignent un navigateur
   de téléviseur ; il est servi en direct par le relais, mais présenté comme une source locale.
 
@@ -132,8 +134,13 @@ Compile, crée le `.zip`, met à jour `manifest.json`, crée la release GitHub e
   pour une personne (par exemple à l'étranger), activer *« Forcer le transcodage des sources distantes »* dans ses
   paramètres d'utilisateur.
 - **Applications.** Validé dans Chrome. Android TV et Android : d'après leur code source, pas encore testés en vrai.
-  Swiftfin passe en proxy (il ne lit pas l'adresse d'origine). Navigateur de téléviseur Samsung : à tester ;
-  probablement limité au réseau local.
+  Swiftfin passe en proxy (il ne lit pas l'adresse d'origine). TV Samsung (navigateur et application Jellyfin for
+  Tizen) : testée en vrai.
+- **Téléviseurs : réseau local seulement.** Sur une TV, le lecteur web n'accepte le relais que si Jellyfin considère
+  la TV comme étant sur son réseau local. Ouvrir Jellyfin sur la TV par une adresse locale (par exemple
+  `http://192.168.1.10:8096`), pas par son nom de domaine public ; sinon, seule l'image de la chaîne s'affiche. Si la
+  TV doit passer par l'adresse publique, ajouter l'IP publique de la maison aux *Réseaux LAN* de Jellyfin
+  (*Tableau de bord → Réseau*).
 - **Mode proxy et certaines chaînes Pluto.** Jellyfin impose 3 s d'analyse à toute TV en direct ; pour quelques
   chaînes Pluto, ffmpeg n'y détecte pas la vidéo → son sans image en proxy (même limite que le M3U intégré).
   En direct, ces chaînes fonctionnent.

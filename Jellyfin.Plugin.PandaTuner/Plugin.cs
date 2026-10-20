@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using Jellyfin.Plugin.PandaTuner.Configuration;
 using MediaBrowser.Common.Configuration;
@@ -20,9 +21,31 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         Instance = this;
 
+        var changed = false;
+
         if (string.IsNullOrEmpty(Configuration.RelaySecret))
         {
             Configuration.RelaySecret = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+            changed = true;
+        }
+
+        // v0.1.3 : l'application Samsung (Tizen) est un navigateur de téléviseur ; on l'ajoute une seule fois aux
+        // réglages existants, sans revenir dessus si l'administrateur la retire ensuite.
+        if (Configuration.ConfigVersion < 1)
+        {
+            const string TizenApp = "Jellyfin for Tizen";
+            var clients = Configuration.BrowserClients.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!clients.Contains(TizenApp, StringComparer.OrdinalIgnoreCase))
+            {
+                Configuration.BrowserClients = string.Join(',', clients.Append(TizenApp));
+            }
+
+            Configuration.ConfigVersion = 1;
+            changed = true;
+        }
+
+        if (changed)
+        {
             SaveConfiguration();
         }
     }
