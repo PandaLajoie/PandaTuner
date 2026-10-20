@@ -34,6 +34,7 @@ $package = [ordered]@{
     overview    = 'Ajoute un syntoniseur « PandaTuner ». Selon l''application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).'
     owner       = 'PandaLajoie'
     category    = 'Live TV'
+    imageUrl    = "https://raw.githubusercontent.com/$repo/main/images/logo.png"
 }
 
 Write-Host "== Compilation $assemblyVersion"

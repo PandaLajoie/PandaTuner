@@ -1,5 +1,7 @@
 # PandaTuner
 
+![PandaTuner](images/logo.png)
+
 Plugin Jellyfin qui ajoute un syntoniseur M3U **capable de lecture directe** : la vidéo des chaînes IPTV va de la
 source à l'appareil, sans passer par le serveur. Le serveur ne fournit que le guide, l'adresse du flux et, pour les
 navigateurs, les playlists (quelques Ko).
