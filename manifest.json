@@ -2,12 +2,20 @@
     {
         "guid":  "8e7a3c52-4b1d-4f3a-9c2e-6d5b0a1f7e93",
         "name":  "PandaTuner",
-        "description":  "Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.",
-        "overview":  "Ajoute un syntoniseur « PandaTuner ». Selon l\u0027application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).",
+        "description":  "M3U tuner with direct play of IPTV channels: video no longer goes through the server. / Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.",
+        "overview":  "Adds a \"PandaTuner\" tuner. Depending on the app, each channel is served directly (browsers, Android TV, Jellyfin Media Player) or through the server (other apps). Playlist relay for sources that block browsers (e.g. Pluto TV). / Ajoute un syntoniseur « PandaTuner ». Selon l\u0027application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).",
         "owner":  "PandaLajoie",
         "category":  "Live TV",
         "imageUrl":  "https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/images/logo.png",
         "versions":  [
+                         {
+                             "version":  "0.1.2.0",
+                             "changelog":  "English/French: configuration page in the Jellyfin UI language, bilingual tuner name and messages, English README. / Anglais/français : page de configuration dans la langue de l\u0027interface Jellyfin, nom du syntoniseur et messages bilingues, README en anglais.",
+                             "targetAbi":  "12.0.0.0",
+                             "sourceUrl":  "https://github.com/PandaLajoie/PandaTuner/releases/download/v0.1.2/pandatuner_0.1.2.0.zip",
+                             "checksum":  "41836eb2a25b1d9bdf8788539e2a68c5",
+                             "timestamp":  "2026-10-20T04:08:02Z"
+                         },
                          {
                              "version":  "0.1.1.0",
                              "changelog":  "L\u0027adresse de la liste M3U se règle dans la page du plugin (Extensions → PandaTuner) : l\u0027écran « Ajouter un syntoniseur » de Jellyfin n\u0027affiche pas ce champ.",
