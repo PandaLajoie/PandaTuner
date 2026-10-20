@@ -72,6 +72,16 @@ https://…/lcn.m3u8
 
 Le syntoniseur intégré ignore cet attribut : la même liste reste utilisable sans le plugin.
 
+### Où trouver une liste
+
+- **[iptv-org/iptv](https://github.com/iptv-org/iptv)** (recommandé) : chaînes publiques du monde entier, classées
+  par pays, langue ou catégorie. Préférer une liste réduite à la liste complète (plus de 10 000 chaînes), par
+  exemple `https://iptv-org.github.io/iptv/countries/ca.m3u` (Canada) ou
+  `https://iptv-org.github.io/iptv/languages/fra.m3u` (français). Certaines chaînes sont hors ligne ou géobloquées.
+- **[PandaM3uList](https://github.com/PandaLajoie/PandaM3uList)** : la liste de l'auteur, uniquement des chaînes
+  francophones (Québec et France), avec des identifiants de guide vérifiés :
+  `https://raw.githubusercontent.com/PandaLajoie/PandaM3uList/main/PandaM3uList.m3u`.
+
 ## Configuration
 
 Tout se règle dans **Tableau de bord → Extensions → PandaTuner**.

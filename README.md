@@ -71,6 +71,16 @@ https://…/lcn.m3u8
 
 The built-in tuner ignores this attribute: the same list still works without the plugin.
 
+### Where to find a list
+
+- **[iptv-org/iptv](https://github.com/iptv-org/iptv)** (recommended): public channels from all over the world, sorted
+  by country, language or category. Pick a smaller list rather than the full one (over 10,000 channels), for
+  example `https://iptv-org.github.io/iptv/countries/ca.m3u` (Canada) or
+  `https://iptv-org.github.io/iptv/languages/fra.m3u` (French). Some channels are offline or geo-blocked.
+- **[PandaM3uList](https://github.com/PandaLajoie/PandaM3uList)**: the author's list, French-language channels
+  only (Québec and France), with guide IDs checked:
+  `https://raw.githubusercontent.com/PandaLajoie/PandaM3uList/main/PandaM3uList.m3u`.
+
 ## Configuration
 
 Everything is set in **Dashboard → Plugins → PandaTuner**.
