@@ -34,7 +34,8 @@ $package = [ordered]@{
     description = 'M3U tuner with direct play of IPTV channels: video no longer goes through the server. / Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.'
     overview    = 'Adds a "PandaTuner" tuner. Depending on the app, each channel is served directly (browsers, Android TV, Jellyfin Media Player) or through the server (other apps). Playlist relay for sources that block browsers (e.g. Pluto TV). / Ajoute un syntoniseur « PandaTuner ». Selon l''application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).'
     owner       = 'PandaLajoie'
-    category    = 'Live TV'
+    # Même valeur que les plugins officiels (NextPVR, TVHeadend) : l'interface la traduit (« Télé en direct »).
+    category    = 'LiveTV'
     imageUrl    = "https://raw.githubusercontent.com/$repo/main/images/logo.png"
 }
 
