@@ -75,6 +75,10 @@ if ($NoPublish) {
     return
 }
 
+# Windows PowerShell 5.1 traite tout message de gh/git sur stderr (même un simple avertissement) comme une erreur
+# fatale quand ErrorActionPreference vaut Stop : on se fie au code de sortie à partir d'ici.
+$ErrorActionPreference = 'Continue'
+
 Write-Host "== Release GitHub $tag"
 & $gh release create $tag $zip --repo $repo --title "PandaTuner $Version" --notes $Changelog
 if ($LASTEXITCODE -ne 0) { throw 'La création de la release a échoué.' }

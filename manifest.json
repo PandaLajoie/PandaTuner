@@ -1,0 +1,20 @@
+[
+    {
+        "guid":  "8e7a3c52-4b1d-4f3a-9c2e-6d5b0a1f7e93",
+        "name":  "PandaTuner",
+        "description":  "Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.",
+        "overview":  "Ajoute un syntoniseur « PandaTuner ». Selon l\u0027application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).",
+        "owner":  "PandaLajoie",
+        "category":  "Live TV",
+        "versions":  [
+                         {
+                             "version":  "0.1.0.0",
+                             "changelog":  "Première version : lecture directe selon l\u0027application, relais de playlists (Pluto dans le navigateur), repli par le serveur.",
+                             "targetAbi":  "12.0.0.0",
+                             "sourceUrl":  "https://github.com/PandaLajoie/PandaTuner/releases/download/v0.1.0/pandatuner_0.1.0.0.zip",
+                             "checksum":  "00b897b18b67454cc23c88d117d230dd",
+                             "timestamp":  "2026-10-20T03:13:47Z"
+                         }
+                     ]
+    }
+]
