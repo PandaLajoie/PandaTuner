@@ -57,7 +57,8 @@ public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
         _logger = logger;
     }
 
-    public string Name => "PandaTuner (M3U, lecture directe)";
+    // Bilingue : le serveur ne connaît pas la langue de la personne qui lit ce nom.
+    public string Name => "PandaTuner (M3U, direct play / lecture directe)";
 
     public string Type => TunerType;
 
@@ -119,13 +120,15 @@ public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
         // l'adresse se règle dans la page de configuration du plugin.
         if (string.IsNullOrWhiteSpace(info.Url))
         {
-            throw new ArgumentException("Adresse de la liste M3U vide : réglez-la dans Tableau de bord → Extensions → PandaTuner.");
+            throw new ArgumentException(
+                "Empty M3U list address: set it in Dashboard → Plugins → PandaTuner. / "
+                + "Adresse de la liste M3U vide : réglez-la dans Tableau de bord → Extensions → PandaTuner.");
         }
 
         var content = await PandaM3uParser.ReadPlaylistAsync(info, CreateHttpClient(), CancellationToken.None).ConfigureAwait(false);
         if (PandaM3uParser.Parse(content, info.Id, ChannelIdPrefix, DefaultMode).Count == 0)
         {
-            throw new ArgumentException("Aucune chaîne trouvée dans la liste M3U.");
+            throw new ArgumentException("No channel found in the M3U list. / Aucune chaîne trouvée dans la liste M3U.");
         }
     }
 

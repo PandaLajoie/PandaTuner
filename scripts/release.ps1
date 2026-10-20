@@ -30,8 +30,9 @@ $gh = if (Test-Path 'C:\Program Files\GitHub CLI\gh.exe') { 'C:\Program Files\Gi
 $package = [ordered]@{
     guid        = '8e7a3c52-4b1d-4f3a-9c2e-6d5b0a1f7e93'
     name        = 'PandaTuner'
-    description = 'Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.'
-    overview    = 'Ajoute un syntoniseur « PandaTuner ». Selon l''application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).'
+    # Bilingue (anglais / français) : le catalogue Jellyfin n'a qu'un champ par texte.
+    description = 'M3U tuner with direct play of IPTV channels: video no longer goes through the server. / Syntoniseur M3U avec lecture directe des chaînes IPTV : la vidéo ne passe plus par le serveur.'
+    overview    = 'Adds a "PandaTuner" tuner. Depending on the app, each channel is served directly (browsers, Android TV, Jellyfin Media Player) or through the server (other apps). Playlist relay for sources that block browsers (e.g. Pluto TV). / Ajoute un syntoniseur « PandaTuner ». Selon l''application, chaque chaîne est servie en direct (navigateurs, Android TV, Jellyfin Media Player) ou par le serveur (autres applications). Relais de playlists pour les sources qui bloquent les navigateurs (ex. Pluto TV).'
     owner       = 'PandaLajoie'
     category    = 'Live TV'
     imageUrl    = "https://raw.githubusercontent.com/$repo/main/images/logo.png"

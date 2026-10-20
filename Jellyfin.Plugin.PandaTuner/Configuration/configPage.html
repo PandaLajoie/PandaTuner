@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>PandaTuner</title>
@@ -10,35 +10,34 @@
             <div class="content-primary">
                 <h2>PandaTuner</h2>
 
-                <h3>Liste de chaînes</h3>
-                <p>L'écran « Ajouter un syntoniseur » de Jellyfin n'affiche pas l'adresse de la liste pour ce type de
-                   syntoniseur : c'est ici qu'on la règle. Le bouton crée le syntoniseur PandaTuner, ou le met à jour
-                   s'il existe déjà. Les fournisseurs de guide (XMLTV) ne changent pas.</p>
+                <!-- Textes remplis selon la langue de l'interface Jellyfin (data-i18n → PandaTunerText). -->
+                <h3 data-i18n="listTitle"></h3>
+                <p data-i18n="listHelp"></p>
                 <form id="PandaTunerTunerForm">
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="TunerUrl">Adresse de la liste M3U</label>
-                        <input is="emby-input" type="text" id="TunerUrl" required placeholder="https://…/liste.m3u" />
+                        <label class="inputLabel inputLabelUnfocused" for="TunerUrl" data-i18n="listUrl"></label>
+                        <input is="emby-input" type="text" id="TunerUrl" required placeholder="https://…/list.m3u" />
                     </div>
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="TunerName">Nom du syntoniseur</label>
+                        <label class="inputLabel inputLabelUnfocused" for="TunerName" data-i18n="tunerName"></label>
                         <input is="emby-input" type="text" id="TunerName" />
                     </div>
                     <button is="emby-button" type="submit" class="raised button-submit block emby-button">
-                        <span>Enregistrer le syntoniseur</span>
+                        <span data-i18n="saveTuner"></span>
                     </button>
                 </form>
 
-                <h3>Lecture</h3>
-                <p>Chaque chaîne choisit son mode avec l'attribut <code>panda-mode</code> dans la liste M3U :</p>
+                <h3 data-i18n="playbackTitle"></h3>
+                <p data-i18n="modesIntro"></p>
                 <ul>
-                    <li><code>direct</code> : lecture directe pour les navigateurs (ordinateur et téléviseur) et les lecteurs natifs ;</li>
-                    <li><code>app</code> : lecture directe seulement pour les lecteurs natifs ;</li>
-                    <li><code>proxy</code> : toujours par le serveur.</li>
+                    <li data-i18n="modeDirect"></li>
+                    <li data-i18n="modeApp"></li>
+                    <li data-i18n="modeProxy"></li>
                 </ul>
-                <p>Les autres applications (Swiftfin, applications inconnues) passent toujours par le serveur.</p>
+                <p data-i18n="otherApps"></p>
                 <form id="PandaTunerConfigForm">
                     <div class="selectContainer">
-                        <label class="selectLabel" for="DefaultMode">Mode des chaînes sans attribut</label>
+                        <label class="selectLabel" for="DefaultMode" data-i18n="defaultMode"></label>
                         <select is="emby-select" id="DefaultMode" name="DefaultMode" class="emby-select-withcolor emby-select">
                             <option value="direct">direct</option>
                             <option value="app">app</option>
@@ -46,24 +45,70 @@
                         </select>
                     </div>
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="BrowserClients">Applications « navigateur » (séparées par des virgules)</label>
+                        <label class="inputLabel inputLabelUnfocused" for="BrowserClients" data-i18n="browserClients"></label>
                         <input is="emby-input" type="text" id="BrowserClients" />
                     </div>
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="NativeClients">Applications à lecteur natif</label>
+                        <label class="inputLabel inputLabelUnfocused" for="NativeClients" data-i18n="nativeClients"></label>
                         <input is="emby-input" type="text" id="NativeClients" />
                     </div>
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="TvUserAgents">User-Agent de navigateurs de téléviseur</label>
+                        <label class="inputLabel inputLabelUnfocused" for="TvUserAgents" data-i18n="tvUserAgents"></label>
                         <input is="emby-input" type="text" id="TvUserAgents" />
                     </div>
                     <button is="emby-button" type="submit" class="raised button-submit block emby-button">
-                        <span>Enregistrer</span>
+                        <span data-i18n="save"></span>
                     </button>
                 </form>
             </div>
         </div>
         <script type="text/javascript">
+            var PandaTunerText = {
+                en: {
+                    listTitle: 'Channel list',
+                    listHelp: 'Jellyfin\'s "Add tuner device" screen doesn\'t show the list address for this tuner type: set it here. '
+                        + 'The button creates the PandaTuner tuner, or updates it if it already exists. Guide providers (XMLTV) don\'t change.',
+                    listUrl: 'M3U list address',
+                    tunerName: 'Tuner name',
+                    saveTuner: 'Save tuner',
+                    playbackTitle: 'Playback',
+                    modesIntro: 'Each channel picks its mode with the <code>panda-mode</code> attribute in the M3U list:',
+                    modeDirect: '<code>direct</code>: direct play for browsers (desktop and TV) and native players;',
+                    modeApp: '<code>app</code>: direct play for native players only;',
+                    modeProxy: '<code>proxy</code>: always through the server.',
+                    otherApps: 'Other apps (Swiftfin, unknown apps) always go through the server.',
+                    defaultMode: 'Mode for channels without the attribute',
+                    browserClients: '"Browser" apps (comma-separated)',
+                    nativeClients: 'Native player apps',
+                    tvUserAgents: 'TV browser User-Agents',
+                    save: 'Save',
+                    tunerSaved: 'Tuner saved. Refresh the guide data (Live TV) to show the channels.',
+                    tunerError: 'Could not save the tuner: check that the M3U list address is reachable from the server and contains channels.'
+                },
+                fr: {
+                    listTitle: 'Liste de chaînes',
+                    listHelp: 'L\'écran « Ajouter un syntoniseur » de Jellyfin n\'affiche pas l\'adresse de la liste pour ce type de syntoniseur : '
+                        + 'c\'est ici qu\'on la règle. Le bouton crée le syntoniseur PandaTuner, ou le met à jour s\'il existe déjà. '
+                        + 'Les fournisseurs de guide (XMLTV) ne changent pas.',
+                    listUrl: 'Adresse de la liste M3U',
+                    tunerName: 'Nom du syntoniseur',
+                    saveTuner: 'Enregistrer le syntoniseur',
+                    playbackTitle: 'Lecture',
+                    modesIntro: 'Chaque chaîne choisit son mode avec l\'attribut <code>panda-mode</code> dans la liste M3U :',
+                    modeDirect: '<code>direct</code> : lecture directe pour les navigateurs (ordinateur et téléviseur) et les lecteurs natifs ;',
+                    modeApp: '<code>app</code> : lecture directe seulement pour les lecteurs natifs ;',
+                    modeProxy: '<code>proxy</code> : toujours par le serveur.',
+                    otherApps: 'Les autres applications (Swiftfin, applications inconnues) passent toujours par le serveur.',
+                    defaultMode: 'Mode des chaînes sans attribut',
+                    browserClients: 'Applications « navigateur » (séparées par des virgules)',
+                    nativeClients: 'Applications à lecteur natif',
+                    tvUserAgents: 'User-Agent de navigateurs de téléviseur',
+                    save: 'Enregistrer',
+                    tunerSaved: 'Syntoniseur enregistré. Rafraîchissez les données du guide (Télé en direct) pour afficher les chaînes.',
+                    tunerError: 'Impossible d\'enregistrer le syntoniseur : vérifiez que l\'adresse de la liste M3U est accessible depuis le serveur et contient des chaînes.'
+                }
+            };
+
             var PandaTunerConfig = {
                 pluginUniqueId: '8e7a3c52-4b1d-4f3a-9c2e-6d5b0a1f7e93',
                 tunerType: 'pandatuner',
@@ -71,6 +116,20 @@
                 // Syntoniseur existant (réglages Jellyfin conservés lors d'une mise à jour).
                 tuner: null
             };
+
+            // Langue de l'interface Jellyfin (posée sur <html lang> par jellyfin-web) ; anglais par défaut.
+            function pandaTunerT(key) {
+                var lang = (document.documentElement.lang || navigator.language || 'en').toLowerCase();
+                var texts = lang.indexOf('fr') === 0 ? PandaTunerText.fr : PandaTunerText.en;
+                return texts[key] || PandaTunerText.en[key] || key;
+            }
+
+            function pandaTunerTranslate(page) {
+                page.querySelectorAll('[data-i18n]').forEach(function (el) {
+                    // Textes fixes de ce fichier (pas de saisie utilisateur) : innerHTML sans risque, pour les <code>.
+                    el.innerHTML = pandaTunerT(el.getAttribute('data-i18n'));
+                });
+            }
 
             function pandaTunerLoad() {
                 return ApiClient.getJSON(ApiClient.getUrl('System/Configuration/livetv')).then(function (liveTv) {
@@ -84,6 +143,7 @@
             }
 
             document.querySelector('#PandaTunerConfigPage').addEventListener('pageshow', function () {
+                pandaTunerTranslate(this);
                 Dashboard.showLoadingMsg();
                 Promise.all([
                     ApiClient.getPluginConfiguration(PandaTunerConfig.pluginUniqueId).then(function (config) {
@@ -119,11 +179,11 @@
                 }).then(function () {
                     return pandaTunerLoad().then(function () {
                         Dashboard.hideLoadingMsg();
-                        Dashboard.alert('Syntoniseur enregistré. Rafraîchissez les données du guide (Télé en direct) pour afficher les chaînes.');
+                        Dashboard.alert(pandaTunerT('tunerSaved'));
                     });
                 }, function () {
                     Dashboard.hideLoadingMsg();
-                    Dashboard.alert('Impossible d\'enregistrer le syntoniseur : vérifiez que l\'adresse de la liste M3U est accessible depuis le serveur et contient des chaînes.');
+                    Dashboard.alert(pandaTunerT('tunerError'));
                 });
                 return false;
             });

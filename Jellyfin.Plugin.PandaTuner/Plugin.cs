@@ -33,7 +33,9 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 
     public override Guid Id => Guid.Parse("8e7a3c52-4b1d-4f3a-9c2e-6d5b0a1f7e93");
 
-    public override string Description => "Syntoniseur M3U avec lecture directe des chaînes (sans passer par le serveur).";
+    public override string Description =>
+        "M3U tuner with direct play of channels (without going through the server). / "
+        + "Syntoniseur M3U avec lecture directe des chaînes (sans passer par le serveur).";
 
     public IEnumerable<PluginPageInfo> GetPages()
     {

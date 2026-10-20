@@ -1,143 +1,142 @@
 # PandaTuner
 
+**English** · [Français](README.fr.md)
+
 ![PandaTuner](images/logo.png)
 
-Plugin Jellyfin qui ajoute un syntoniseur M3U **capable de lecture directe** : la vidéo des chaînes IPTV va de la
-source à l'appareil, sans passer par le serveur. Le serveur ne fournit que le guide, l'adresse du flux et, pour les
-navigateurs, les playlists (quelques Ko).
+Jellyfin plugin that adds an M3U tuner **capable of direct play**: IPTV channel video goes from the source straight
+to the device, without going through the server. The server only provides the guide, the stream address and, for
+browsers, the playlists (a few KB).
 
-Testé avec **Jellyfin 12.0**. Prototype (version 0.1) : voir [Limites](#limites).
+Tested with **Jellyfin 12.0**. Prototype (version 0.1): see [Limitations](#limitations).
 
-## Pourquoi
+## Why
 
-Le syntoniseur M3U intégré de Jellyfin fait toujours passer les flux HLS par le serveur (ffmpeg). Chaque personne qui
-regarde consomme donc la bande passante du serveur, en réception et en envoi. Aucun réglage ni attribut M3U ne permet
-de changer ça : Jellyfin refuse volontairement la lecture directe des playlists HLS, à deux endroits
-(`M3UTunerHost` et `StreamBuilder`).
+Jellyfin's built-in M3U tuner always routes HLS streams through the server (ffmpeg). Every viewer therefore uses the
+server's bandwidth, both downstream and upstream. No setting or M3U attribute changes that: Jellyfin deliberately
+refuses direct play of HLS playlists, in two places (`M3UTunerHost` and `StreamBuilder`).
 
-## Fonctionnement
+## How it works
 
-À chaque demande de lecture, le plugin regarde **quelle application** demande et choisit :
+For each playback request, the plugin looks at **which app** is asking and chooses:
 
-| Application | Diffusion |
+| App | Delivery |
 |---|---|
-| Navigateur d'ordinateur (Jellyfin Web) | **Direct** : playlists relayées par le serveur, segments vidéo depuis la source |
-| Navigateur de téléviseur (Tizen, webOS…) | **Direct** par le même relais |
-| Lecteur natif (Jellyfin for Android TV, Jellyfin Media Player) | **Direct** à l'adresse d'origine |
-| Autres (Swiftfin, applications inconnues) | **Proxy** : par le serveur, comme le M3U intégré |
+| Desktop browser (Jellyfin Web) | **Direct**: playlists relayed by the server, video segments from the source |
+| TV browser (Tizen, webOS…) | **Direct** through the same relay |
+| Native player (Jellyfin for Android TV, Jellyfin Media Player) | **Direct** to the original address |
+| Others (Swiftfin, unknown apps) | **Proxy**: through the server, like the built-in M3U tuner |
 
-Le **relais de playlists** règle deux problèmes courants des navigateurs :
+The **playlist relay** solves two common browser problems:
 
-- les sources qui n'autorisent pas les autres sites (CORS), comme Pluto TV, qui ne verrouille que ses playlists ;
-- les playlists à adresses relatives.
+- sources that don't allow other websites (CORS), such as Pluto TV, which only locks its playlists;
+- playlists with relative addresses.
 
-Les adresses relayées sont signées par le serveur : le relais ne sert que les chaînes de la liste.
+Relayed addresses are signed by the server: the relay only serves channels from the list.
 
 ## Installation
 
-### Par le dépôt de plugins (recommandé)
+### From the plugin repository (recommended)
 
-1. *Tableau de bord → Extensions → Dépôts* → **+**, avec l'adresse :
+1. *Dashboard → Plugins → Repositories* → **+**, with the address:
    ```
    https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/manifest.json
    ```
-2. *Catalogue* → **PandaTuner** → *Installer*, puis redémarrer Jellyfin.
-3. Configurer la liste de chaînes : voir [Configuration](#configuration).
+2. *Catalog* → **PandaTuner** → *Install*, then restart Jellyfin.
+3. Set up the channel list: see [Configuration](#configuration).
 
-Les nouvelles versions apparaissent ensuite dans le catalogue. Pour mettre à jour : *Catalogue → PandaTuner*, choisir
-la version, *Installer*, puis redémarrer (ou lancer la tâche planifiée *Mettre à jour les extensions*).
+New versions then show up in the catalog. To update: *Catalog → PandaTuner*, pick the version, *Install*, then
+restart (or run the *Update Plugins* scheduled task).
 
-### À la main
+### Manually
 
-Copier `Jellyfin.Plugin.PandaTuner.dll` (dans le `.zip` des [releases](https://github.com/PandaLajoie/PandaTuner/releases))
-dans un sous-dossier des plugins du serveur, par exemple `plugins/PandaTuner_0.1.1.0/`, puis redémarrer Jellyfin
-et passer à la [Configuration](#configuration).
+Copy `Jellyfin.Plugin.PandaTuner.dll` (in the `.zip` from the [releases](https://github.com/PandaLajoie/PandaTuner/releases))
+into a subfolder of the server's plugin directory, e.g. `plugins/PandaTuner_0.1.2.0/`, then restart Jellyfin and
+go to [Configuration](#configuration).
 
-## Liste M3U
+## M3U list
 
-Mêmes attributs que le M3U intégré (`tvg-id`, `tvg-chno`, `tvg-logo`, `group-title`), plus `panda-mode` :
+Same attributes as the built-in M3U tuner (`tvg-id`, `tvg-chno`, `tvg-logo`, `group-title`), plus `panda-mode`:
 
 ```m3u
 #EXTINF:-1 tvg-chno="11" tvg-id="..." panda-mode="direct",LCN
 https://…/lcn.m3u8
 ```
 
-| `panda-mode` | Effet |
+| `panda-mode` | Effect |
 |---|---|
-| `direct` | Direct pour les navigateurs et les lecteurs natifs (défaut) |
-| `app` | Direct seulement pour les lecteurs natifs |
-| `proxy` | Toujours par le serveur |
+| `direct` | Direct for browsers and native players (default) |
+| `app` | Direct for native players only |
+| `proxy` | Always through the server |
 
-Le syntoniseur intégré ignore cet attribut : la même liste reste utilisable sans le plugin.
+The built-in tuner ignores this attribute: the same list still works without the plugin.
 
 ## Configuration
 
-Tout se règle dans **Tableau de bord → Extensions → PandaTuner**.
+Everything is set in **Dashboard → Plugins → PandaTuner**.
 
-> L'écran *Télé en direct → Ajouter un syntoniseur* de Jellyfin ne convient pas : avec le type « PandaTuner », il
-> n'affiche pas le champ d'adresse de la liste, et l'enregistrement échoue.
+> Jellyfin's *Live TV → Add tuner device* screen doesn't work here: with the "PandaTuner" type it doesn't show the
+> list address field, and saving fails.
 
-### 1. Liste de chaînes
+### 1. Channel list
 
-1. **Adresse de la liste M3U** : l'adresse `http(s)://…` de la liste (ou un chemin de fichier sur le serveur).
-2. **Nom du syntoniseur** : libre (par défaut « PandaTuner »).
-3. **Enregistrer le syntoniseur** : crée le syntoniseur PandaTuner, ou le met à jour s'il existe déjà.
-   Le serveur télécharge la liste pour la vérifier : une adresse inaccessible ou sans chaîne est refusée.
-4. *Tableau de bord → Télé en direct* → **Rafraîchir les données de guide** pour afficher les chaînes.
+1. **M3U list address**: the `http(s)://…` address of the list (or a file path on the server).
+2. **Tuner name**: anything (defaults to "PandaTuner").
+3. **Save tuner**: creates the PandaTuner tuner, or updates it if it already exists.
+   The server downloads the list to check it: an unreachable address or a list without channels is rejected.
+4. *Dashboard → Live TV* → **Refresh guide data** to show the channels.
 
-### 2. Guide des programmes
+### 2. Program guide
 
-Rien de spécial : les fournisseurs XMLTV de *Télé en direct* s'appliquent comme avec le M3U intégré
-(correspondance par `tvg-id`).
+Nothing special: the XMLTV providers in *Live TV* apply as with the built-in M3U tuner (matched by `tvg-id`).
 
-### 3. Remplacer le syntoniseur M3U intégré
+### 3. Replacing the built-in M3U tuner
 
-Si la même liste était déjà chargée par le syntoniseur « M3U » de Jellyfin, chaque chaîne apparaît **deux fois**.
-Une fois PandaTuner vérifié, supprimer l'ancien syntoniseur dans *Télé en direct*.
+If the same list was already loaded by Jellyfin's "M3U" tuner, every channel shows up **twice**.
+Once PandaTuner is working, delete the old tuner in *Live TV*.
 
-### 4. Lecture (facultatif)
+### 4. Playback (optional)
 
-- **Mode des chaînes sans attribut** `panda-mode` : `direct` par défaut.
-- **Applications « navigateur »** et **à lecteur natif** : noms d'applications (tels qu'envoyés par le client)
-  qui ont droit au direct. Les autres passent par le serveur.
-- **User-Agent de navigateurs de téléviseur** : morceaux d'User-Agent (Tizen, webOS…) qui désignent un navigateur
-  de téléviseur ; il est servi en direct par le relais, mais présenté comme une source locale.
+- **Mode for channels without** a `panda-mode` attribute: `direct` by default.
+- **"Browser" apps** and **native player apps**: app names (as sent by the client) allowed to play directly.
+  Other apps go through the server.
+- **TV browser User-Agents**: User-Agent fragments (Tizen, webOS…) that identify a TV browser; it is served directly
+  through the relay, but presented as a local source.
 
-## Compilation
+## Building
 
-.NET 10 et les paquets `Jellyfin.Controller` / `Jellyfin.Model` 12.0.0. Sans SDK installé, avec Docker :
+.NET 10 and the `Jellyfin.Controller` / `Jellyfin.Model` 12.0.0 packages. Without an SDK installed, with Docker:
 
 ```sh
 docker run --rm -v "$PWD/Jellyfin.Plugin.PandaTuner:/src" -w /src mcr.microsoft.com/dotnet/sdk:10.0 \
   dotnet publish -c Release -o /src/bin/publish
 ```
 
-## Publier une version
+## Publishing a version
 
 ```powershell
-.\scripts\release.ps1 -Version 0.2.0 -Changelog "Ce qui change"
+.\scripts\release.ps1 -Version 0.2.0 -Changelog "What changes"
 ```
 
-Compile, crée le `.zip`, met à jour `manifest.json`, crée la release GitHub et pousse le manifest.
-`-NoPublish` prépare tout sans rien envoyer.
+Builds, creates the `.zip`, updates `manifest.json`, creates the GitHub release and pushes the manifest.
+`-NoPublish` prepares everything without sending anything.
 
-## Limites
+## Limitations
 
-- **Contournement expérimental.** Jellyfin 12.0 exclut le conteneur `hls` de la lecture directe. En direct, le plugin
-  annonce `mp4` et signale le HLS par `TranscodingSubProtocol`, que l'interface web utilise pour activer hls.js.
-  Une mise à jour de Jellyfin pourrait casser ce comportement.
-- **Géoblocage.** En direct, c'est l'adresse IP de l'appareil qui compte, plus celle du serveur. Pour forcer le proxy
-  pour une personne (par exemple à l'étranger), activer *« Forcer le transcodage des sources distantes »* dans ses
-  paramètres d'utilisateur.
-- **Applications.** Validé dans Chrome. Android TV et Android : d'après leur code source, pas encore testés en vrai.
-  Swiftfin passe en proxy (il ne lit pas l'adresse d'origine). Navigateur de téléviseur Samsung : à tester ;
-  probablement limité au réseau local.
-- **Mode proxy et certaines chaînes Pluto.** Jellyfin impose 3 s d'analyse à toute TV en direct ; pour quelques
-  chaînes Pluto, ffmpeg n'y détecte pas la vidéo → son sans image en proxy (même limite que le M3U intégré).
-  En direct, ces chaînes fonctionnent.
-- **Mixed content.** Si Jellyfin est servi en `https`, une source dont les segments sont en `http` sera bloquée par
-  le navigateur.
+- **Experimental workaround.** Jellyfin 12.0 excludes the `hls` container from direct play. For direct play, the
+  plugin announces `mp4` and signals HLS through `TranscodingSubProtocol`, which the web client uses to enable hls.js.
+  A Jellyfin update could break this behavior.
+- **Geo-blocking.** With direct play, the device's IP address is what counts, no longer the server's. To force proxy
+  for someone (e.g. abroad), enable *"Force transcoding of remote media sources"* in their user settings.
+- **Apps.** Validated in Chrome. Android TV and Android: based on their source code, not yet tested for real.
+  Swiftfin uses proxy (it doesn't read the original address). Samsung TV browser: to be tested; probably limited to
+  the local network.
+- **Proxy mode and some Pluto channels.** Jellyfin enforces 3 s of analysis for all live TV; for a few Pluto
+  channels, ffmpeg doesn't detect the video in that time → audio without picture in proxy (same limitation as the
+  built-in M3U tuner). With direct play, these channels work.
+- **Mixed content.** If Jellyfin is served over `https`, a source whose segments use `http` will be blocked by the
+  browser.
 
-## Licence
+## License
 
-GPL-2.0, comme Jellyfin : le plugin reprend des parties de son code (lecture M3U, réglages du syntoniseur).
+GPL-2.0, like Jellyfin: the plugin reuses parts of its code (M3U parsing, tuner settings).
