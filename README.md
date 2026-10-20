@@ -33,11 +33,22 @@ Les adresses relayées sont signées par le serveur : le relais ne sert que les 
 
 ## Installation
 
-1. Compiler (voir plus bas) ou récupérer `Jellyfin.Plugin.PandaTuner.dll`.
-2. La copier dans le dossier des plugins du serveur, dans un sous-dossier, par exemple
-   `plugins/PandaTuner_0.1.0.0/Jellyfin.Plugin.PandaTuner.dll`, puis redémarrer Jellyfin.
+### Par le dépôt de plugins (recommandé)
+
+1. *Tableau de bord → Extensions → Dépôts* → **+**, avec l'adresse :
+   ```
+   https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/manifest.json
+   ```
+2. *Catalogue* → **PandaTuner** → *Installer*, puis redémarrer Jellyfin.
 3. *Tableau de bord → Télé en direct → Ajouter un syntoniseur* → **« PandaTuner (M3U, lecture directe) »**, avec l'adresse
    de la liste M3U. Les fournisseurs de guide (XMLTV) ne changent pas.
+
+Les nouvelles versions apparaissent ensuite dans le tableau de bord, comme pour les plugins officiels.
+
+### À la main
+
+Copier `Jellyfin.Plugin.PandaTuner.dll` (dans le `.zip` des [releases](https://github.com/PandaLajoie/PandaTuner/releases))
+dans un sous-dossier des plugins du serveur, par exemple `plugins/PandaTuner_0.1.0.0/`, puis redémarrer Jellyfin.
 
 L'interface d'ajout de syntoniseur de Jellyfin est prévue pour M3U et HDHomeRun ; en cas de souci, le syntoniseur
 peut être ajouté par l'API :
@@ -80,6 +91,15 @@ Le syntoniseur intégré ignore cet attribut : la même liste reste utilisable s
 docker run --rm -v "$PWD/Jellyfin.Plugin.PandaTuner:/src" -w /src mcr.microsoft.com/dotnet/sdk:10.0 \
   dotnet publish -c Release -o /src/bin/publish
 ```
+
+## Publier une version
+
+```powershell
+.\scripts\release.ps1 -Version 0.2.0 -Changelog "Ce qui change"
+```
+
+Compile, crée le `.zip`, met à jour `manifest.json`, crée la release GitHub et pousse le manifest.
+`-NoPublish` prépare tout sans rien envoyer.
 
 ## Limites
 
