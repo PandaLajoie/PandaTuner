@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography;
-using Jellyfin.Plugin.PandaTv.Configuration;
+using Jellyfin.Plugin.PandaTuner.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Plugin « PandaTuner » : syntoniseur M3U capable de lecture directe (l'appareil lit la source lui-même).

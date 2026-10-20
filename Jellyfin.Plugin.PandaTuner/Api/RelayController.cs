@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.PandaTv.Api;
+namespace Jellyfin.Plugin.PandaTuner.Api;
 
 /// <summary>
 /// Sert les playlists relayées (voir <see cref="PlaylistRelay"/>). Sans authentification : les lecteurs HLS

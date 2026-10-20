@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Model.Dto;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Flux « ouvert » pour le mode proxy, équivalent du LiveStream de Jellyfin 12.0 pour une source HLS :

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Relais de playlists HLS : le serveur ne transmet que les playlists (texte, quelques Ko), en réécrivant
@@ -13,7 +13,7 @@ namespace Jellyfin.Plugin.PandaTv;
 public static partial class PlaylistRelay
 {
     /// <summary>Route de base des playlists relayées (contrôleur <see cref="Api.RelayController"/>).</summary>
-    public const string RoutePrefix = "PandaTv/Hls";
+    public const string RoutePrefix = "PandaTuner/Hls";
 
     /// <summary>
     /// Réécrit une playlist récupérée à <paramref name="playlistUri"/> (adresse finale, après redirections).

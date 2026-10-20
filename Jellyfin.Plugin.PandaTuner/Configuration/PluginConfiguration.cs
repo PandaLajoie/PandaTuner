@@ -1,6 +1,6 @@
 using MediaBrowser.Model.Plugins;
 
-namespace Jellyfin.Plugin.PandaTv.Configuration;
+namespace Jellyfin.Plugin.PandaTuner.Configuration;
 
 /// <summary>
 /// Réglages du plugin.

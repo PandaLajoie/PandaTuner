@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Jellyfin.Data.Enums;
-using Jellyfin.Plugin.PandaTv.Configuration;
+using Jellyfin.Plugin.PandaTuner.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Configuration;
@@ -20,10 +20,10 @@ using MediaBrowser.Model.MediaInfo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
-/// Syntoniseur « M3U Panda ». Contrairement au M3U intégré (qui refuse la lecture directe des manifestes HLS),
+/// Syntoniseur « PandaTuner ». Contrairement au M3U intégré (qui refuse la lecture directe des manifestes HLS),
 /// il peut servir une chaîne en lecture directe : la vidéo va de la source à l'appareil sans passer par le serveur.
 /// La décision est prise à chaque demande de lecture, selon le mode de la chaîne et l'application qui demande :
 /// <list type="bullet">
@@ -34,7 +34,7 @@ namespace Jellyfin.Plugin.PandaTv;
 /// </summary>
 public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
 {
-    public const string TunerType = "panda-m3u";
+    public const string TunerType = "pandatuner";
 
     /// <summary>User-Agent envoyé aux sources (le même que le M3U intégré quand le syntoniseur n'en définit pas).</summary>
     public const string BrowserUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
@@ -57,7 +57,7 @@ public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
         _logger = logger;
     }
 
-    public string Name => "M3U Panda (lecture directe)";
+    public string Name => "PandaTuner (M3U, lecture directe)";
 
     public string Type => TunerType;
 
@@ -235,6 +235,9 @@ public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
         ReadAtNativeFramerate = tuner.ReadAtNativeFramerate,
         FallbackMaxStreamingBitrate = tuner.FallbackMaxStreamingBitrate,
         UseMostCompatibleTranscodingProfile = !tuner.AllowFmp4TranscodingContainer,
+        // Pas d'AnalyzeDurationMs : Jellyfin impose 3 s d'analyse à toute TV en direct (MediaSourceManager) ;
+        // une valeur plus grande ne ferait qu'allonger l'attente avant l'analyse. Certaines chaînes Pluto n'ont
+        // donc pas d'image en proxy (vidéo non détectée en 3 s) ; en direct, elles fonctionnent.
         RequiredHttpHeaders = new Dictionary<string, string>
         {
             ["User-Agent"] = string.IsNullOrWhiteSpace(tuner.UserAgent) ? BrowserUserAgent : tuner.UserAgent

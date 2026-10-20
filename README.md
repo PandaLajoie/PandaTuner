@@ -33,10 +33,10 @@ Les adresses relayées sont signées par le serveur : le relais ne sert que les 
 
 ## Installation
 
-1. Compiler (voir plus bas) ou récupérer `Jellyfin.Plugin.PandaTv.dll`.
+1. Compiler (voir plus bas) ou récupérer `Jellyfin.Plugin.PandaTuner.dll`.
 2. La copier dans le dossier des plugins du serveur, dans un sous-dossier, par exemple
-   `plugins/PandaTv_0.1.0.0/Jellyfin.Plugin.PandaTv.dll`, puis redémarrer Jellyfin.
-3. *Tableau de bord → Télé en direct → Ajouter un syntoniseur* → **« M3U Panda (lecture directe) »**, avec l'adresse
+   `plugins/PandaTuner_0.1.0.0/Jellyfin.Plugin.PandaTuner.dll`, puis redémarrer Jellyfin.
+3. *Tableau de bord → Télé en direct → Ajouter un syntoniseur* → **« PandaTuner (M3U, lecture directe) »**, avec l'adresse
    de la liste M3U. Les fournisseurs de guide (XMLTV) ne changent pas.
 
 L'interface d'ajout de syntoniseur de Jellyfin est prévue pour M3U et HDHomeRun ; en cas de souci, le syntoniseur
@@ -44,7 +44,7 @@ peut être ajouté par l'API :
 
 ```http
 POST /LiveTv/TunerHosts
-{ "Type": "panda-m3u", "Url": "https://…/liste.m3u", "FriendlyName": "Panda", "IgnoreDts": false }
+{ "Type": "pandatuner", "Url": "https://…/liste.m3u", "FriendlyName": "Panda", "IgnoreDts": false }
 ```
 
 ## Liste M3U
@@ -77,7 +77,7 @@ Le syntoniseur intégré ignore cet attribut : la même liste reste utilisable s
 .NET 10 et les paquets `Jellyfin.Controller` / `Jellyfin.Model` 12.0.0. Sans SDK installé, avec Docker :
 
 ```sh
-docker run --rm -v "$PWD/Jellyfin.Plugin.PandaTv:/src" -w /src mcr.microsoft.com/dotnet/sdk:10.0 \
+docker run --rm -v "$PWD/Jellyfin.Plugin.PandaTuner:/src" -w /src mcr.microsoft.com/dotnet/sdk:10.0 \
   dotnet publish -c Release -o /src/bin/publish
 ```
 
@@ -92,6 +92,9 @@ docker run --rm -v "$PWD/Jellyfin.Plugin.PandaTv:/src" -w /src mcr.microsoft.com
 - **Applications.** Validé dans Chrome. Android TV et Android : d'après leur code source, pas encore testés en vrai.
   Swiftfin passe en proxy (il ne lit pas l'adresse d'origine). Navigateur de téléviseur Samsung : à tester ;
   probablement limité au réseau local.
+- **Mode proxy et certaines chaînes Pluto.** Jellyfin impose 3 s d'analyse à toute TV en direct ; pour quelques
+  chaînes Pluto, ffmpeg n'y détecte pas la vidéo → son sans image en proxy (même limite que le M3U intégré).
+  En direct, ces chaînes fonctionnent.
 - **Mixed content.** Si Jellyfin est servi en `https`, une source dont les segments sont en `http` sera bloquée par
   le navigateur.
 

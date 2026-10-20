@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using MediaBrowser.Controller.LiveTv;
 using MediaBrowser.Model.LiveTv;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Une chaîne lue dans la liste, avec son mode de diffusion.

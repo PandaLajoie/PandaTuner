@@ -3,7 +3,7 @@ using MediaBrowser.Controller.LiveTv;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Déclare le syntoniseur du plugin : Jellyfin récupère tous les <see cref="ITunerHost"/> enregistrés.

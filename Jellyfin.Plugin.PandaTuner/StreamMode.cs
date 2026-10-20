@@ -1,6 +1,6 @@
 using System;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Modes de diffusion d'une chaîne (attribut <c>panda-mode</c>).

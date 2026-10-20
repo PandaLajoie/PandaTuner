@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Jellyfin.Plugin.PandaTv.Configuration;
+using Jellyfin.Plugin.PandaTuner.Configuration;
 using Microsoft.AspNetCore.Http;
 
-namespace Jellyfin.Plugin.PandaTv;
+namespace Jellyfin.Plugin.PandaTuner;
 
 /// <summary>
 /// Type d'application qui demande la lecture.
