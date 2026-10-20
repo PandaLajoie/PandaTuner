@@ -42,8 +42,11 @@ Les adresses relayées sont signées par le serveur : le relais ne sert que les 
    https://raw.githubusercontent.com/PandaLajoie/PandaTuner/main/manifest.json
    ```
 2. *Catalogue* → **PandaTuner** → *Installer*, puis redémarrer Jellyfin.
-3. *Tableau de bord → Télé en direct → Ajouter un syntoniseur* → **« PandaTuner (M3U, lecture directe) »**, avec l'adresse
-   de la liste M3U. Les fournisseurs de guide (XMLTV) ne changent pas.
+3. *Tableau de bord → Extensions → PandaTuner* : saisir l'**adresse de la liste M3U**, puis *Enregistrer le syntoniseur*.
+   Rafraîchir ensuite les données du guide (*Télé en direct*). Les fournisseurs de guide (XMLTV) ne changent pas.
+
+   L'écran *Télé en direct → Ajouter un syntoniseur* de Jellyfin ne convient pas : il n'affiche pas le champ d'adresse
+   pour ce type de syntoniseur.
 
 Les nouvelles versions apparaissent ensuite dans le tableau de bord, comme pour les plugins officiels.
 

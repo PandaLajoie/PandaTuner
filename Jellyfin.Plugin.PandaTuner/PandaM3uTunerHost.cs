@@ -115,6 +115,13 @@ public class PandaM3uTunerHost : ITunerHost, IConfigurableTunerHost
 
     public async Task Validate(TunerHostInfo info)
     {
+        // L'écran « Ajouter un syntoniseur » de Jellyfin n'affiche pas le champ d'adresse pour ce type :
+        // l'adresse se règle dans la page de configuration du plugin.
+        if (string.IsNullOrWhiteSpace(info.Url))
+        {
+            throw new ArgumentException("Adresse de la liste M3U vide : réglez-la dans Tableau de bord → Extensions → PandaTuner.");
+        }
+
         var content = await PandaM3uParser.ReadPlaylistAsync(info, CreateHttpClient(), CancellationToken.None).ConfigureAwait(false);
         if (PandaM3uParser.Parse(content, info.Id, ChannelIdPrefix, DefaultMode).Count == 0)
         {
